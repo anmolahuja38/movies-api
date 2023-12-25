@@ -1,0 +1,17 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build and test
+        run: ./mvnw clean package
+      - name: Build Docker image
+        run: |
+          docker build -t movies-api .
+          docker tag movies-api captaineuropaa/movies-api
+          docker push captaineuropaa/movies-api
